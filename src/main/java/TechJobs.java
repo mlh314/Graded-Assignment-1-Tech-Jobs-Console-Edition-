@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by LaunchCode
@@ -38,6 +35,7 @@ public class TechJobs {
 
                 String columnChoice = getUserSelection("List", columnChoices);
 
+                assert columnChoice != null;
                 if (columnChoice.equals("all")) {
                     printJobs(JobData.findAll());
                 } else {
@@ -61,8 +59,9 @@ public class TechJobs {
                 System.out.println("\nSearch term:");
                 String searchTerm = in.nextLine();
 
+                assert searchField != null;
                 if (searchField.equals("all")) {
-                    printJobs(JobData.findByValue(searchTerm));
+                    printJobs(Objects.requireNonNull(JobData.findByValue(searchTerm)));
                 } else {
                     printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
                 }
@@ -74,10 +73,10 @@ public class TechJobs {
     private static String getUserSelection(String menuHeader, HashMap<String, String> choices) {
 
         int choiceIdx = -1;
-        Boolean validChoice = false;
+        boolean validChoice = false;
         String[] choiceKeys = new String[choices.size()];
 
-        // Put the choices in an ordered structure so we can
+        // Put the choices in an ordered structure ,so we can
         // associate an integer with each one
         int i = 0;
         for (String choiceKey : choices.keySet()) {
@@ -120,6 +119,21 @@ public class TechJobs {
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
 
-        System.out.println("printJobs is not implemented yet");
+        for (HashMap<String, String> jobs: someJobs) {
+            System.out.println("*****");
+
+
+            for (Map.Entry<String, String> i: jobs.entrySet()) {
+                System.out.println(i.getKey() + ": " + i.getValue());
+            }
+            System.out.println("\n*****");
+
+        }
+
+        if (someJobs.isEmpty()) {
+            System.out.println("No Results");
+
+        }
+
     }
 }
